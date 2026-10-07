@@ -1,0 +1,129 @@
+/* ========== HOME HERO ========== */
+.home-hero {
+    text-align: center;
+    padding: 20px 20px 40px;
+}
+
+.home-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    color: var(--gold);
+    font-family: "Lato", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.home-title {
+    margin-top: 20px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.home-title span {
+    color: var(--gold);
+}
+
+.home-description {
+    max-width: 600px;
+    margin: 20px auto 28px;
+    font-family: "Lato", sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* ========== PORTAL CARDS ========== */
+.st-key-card_teacher,
+.st-key-card_student {
+    background: var(--surface);
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    padding: 22px 14px;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.st-key-card_teacher:hover,
+.st-key-card_student:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold) !important;
+}
+
+.portal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.portal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--gold);
+    font-size: 34px;
+}
+
+/* Student icon: outlined, so the two cards differ without a new color */
+.st-key-card_student .portal-icon {
+    background: var(--bg);
+    border: 2px solid var(--gold);
+}
+
+.portal-title {
+    margin-top: 12px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.portal-text {
+    margin: 8px 0 16px;
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+/* ========== FEATURE STRIP ========== */
+.feature-strip {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 56px;
+    padding-bottom: 24px;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    max-width: 220px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: var(--surface);
+    text-align: center;
+    font-family: "Lato", sans-serif;
+    color: var(--muted);
+}
+
+.feature b {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 16px;
+    color: var(--gold);
+}
+
+.feature span {
+    font-size: 14px;
+    margin-top: 4px;
+}
