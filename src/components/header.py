@@ -1,7 +1,7 @@
 import streamlit as st
 
 
-def header_home():
+def header():
     st.markdown(
         """
 <style>
@@ -9,7 +9,7 @@ def header_home():
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0 16px;
+    padding: 10px 0 0;
     border-bottom: 1px solid rgba(212, 175, 55, 0.3);
 }
 .app-brand {

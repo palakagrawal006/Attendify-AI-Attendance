@@ -1,0 +1,133 @@
+/* ========== PAGE HEADING ========== */
+.auth-head {
+    text-align: center;
+    padding: 5px 0 22px;
+}
+
+.auth-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    color: var(--gold);
+    font-family: "Lato", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.auth-title {
+    margin-top: 14px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text);
+}
+
+.auth-title span { color: var(--gold); }
+
+.auth-sub {
+    margin-top: 10px;
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+}
+
+/* ========== FORM CARD ========== */
+.st-key-card_auth {
+    background: var(--surface);
+    border: 1px solid var(--line) !important;
+    border-radius: 24px !important;
+    padding: 28px 26px 24px;
+}
+
+.st-key-card_auth [data-testid="stVerticalBlock"] {
+    gap: 0.9rem;
+    align-items: stretch !important;
+    text-align: left !important;
+}
+
+/* labels */
+.st-key-card_auth [data-testid="stWidgetLabel"] p {
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text) !important;
+}
+
+/* inputs: cover every wrapper Streamlit might use */
+.st-key-card_auth [data-testid="stTextInputRootElement"],
+.st-key-card_auth [data-baseweb="input"],
+.st-key-card_auth [data-baseweb="base-input"] {
+    background: var(--bg) !important;
+    border-radius: 12px !important;
+}
+
+.st-key-card_auth [data-testid="stTextInputRootElement"] {
+    border: 1px solid var(--line) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.st-key-card_auth [data-testid="stTextInputRootElement"]:focus-within {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.18);
+}
+
+.st-key-card_auth input {
+    background: transparent !important;
+    color: var(--text) !important;
+    caret-color: var(--gold);
+    font-family: "Lato", sans-serif;
+}
+
+.st-key-card_auth input::placeholder {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* show/hide password eye */
+.st-key-card_auth [data-testid="stTextInputRootElement"] button {
+    background: transparent !important;
+    color: var(--gold) !important;
+}
+
+/* divider above the buttons */
+.auth-divider {
+    height: 1px;
+    margin: 12px 0 8px;
+    background: var(--line);
+}
+
+/* ========== BACK BUTTON: quiet link, left-aligned ========== */
+.stApp .st-key-back_home {
+    margin-bottom: -18px;   /* pulls the form up; try -10px or -26px to taste */
+}
+
+.stApp .st-key-back_home button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 2px 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    justify-content: flex-start !important;
+}
+
+.stApp .st-key-back_home button p,
+.stApp .st-key-back_home button [data-testid="stIconMaterial"] {
+    color: var(--muted) !important;
+    font-size: 14px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.stApp .st-key-back_home button:hover {
+    background: transparent !important;
+    transform: none !important;
+}
+
+.stApp .st-key-back_home button:hover p,
+.stApp .st-key-back_home button:hover [data-testid="stIconMaterial"] {
+    color: var(--gold) !important;
+    transform: scale(1.08);
+    transform-origin: left center;   /* grows rightward from the arrow, not outward both sides */
+}

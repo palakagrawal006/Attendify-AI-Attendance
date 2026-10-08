@@ -39,6 +39,13 @@
 }
 
 /* ========== PORTAL CARDS ========== */
+/* Center content inside the home portal cards only */
+.st-key-card_teacher [data-testid="stVerticalBlock"],
+.st-key-card_student [data-testid="stVerticalBlock"] {
+    align-items: center;
+    text-align: center;
+}
+
 .st-key-card_teacher,
 .st-key-card_student {
     background: var(--surface);

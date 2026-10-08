@@ -21,6 +21,7 @@ def style_base_layout():
                 visibility: hidden;
                 display: none;
             }
+            
 
             .block-container {
                 padding-top: 1.5rem !important;
@@ -45,12 +46,12 @@ def style_base_layout():
                 color: var(--text);
             }
 
-            /* Center content inside bordered containers (cards) */
+            /* Center content inside bordered containers (cards)
             [data-testid="stVerticalBlockBorderWrapper"] > div,
             [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stVerticalBlock"] {
                 align-items: center;
                 text-align: center;
-            }
+            } */
 
             /* ---------- Buttons: shared ---------- */
             button[kind="primary"],
