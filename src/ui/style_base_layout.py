@@ -82,7 +82,7 @@ def style_base_layout():
             /* Secondary: gold outline */
             button[kind="secondary"],
             [data-testid="stBaseButton-secondary"] {
-                background: transparent !important;
+                background: var(--surface) !important;
                 color: var(--text) !important;
                 border: 2px solid var(--gold) !important;
             }

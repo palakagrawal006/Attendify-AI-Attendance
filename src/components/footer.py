@@ -13,7 +13,7 @@ def footer():
     color: rgba(255, 255, 255, 0.5);
 }
 </style>
-<div class="app-footer">© 2026 Attendify · Made with ♥ for smarter classrooms</div>
+<div class="app-footer">© 2026 Attendify · Made for smarter classrooms</div>
 """,
         unsafe_allow_html=True,
     )
