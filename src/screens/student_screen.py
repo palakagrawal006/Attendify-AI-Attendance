@@ -20,6 +20,7 @@ def auth_style():
 def go_home():
     st.session_state["login_type"] = None
 
+# -------------------------------------------------------------------
 def login_student(student: dict):
     # never keep embeddings in session state
     student = {k: v for k, v in student.items()
@@ -30,7 +31,7 @@ def login_student(student: dict):
     st.toast(f"Welcome, {student['name']}")
     st.rerun()
 
-
+# -------------------------------------------------------------------
 def register_new_student(img):
     st.info("We couldn't match your face. New here? Register with this photo, "
             "or retake it if the lighting was bad.")
@@ -83,10 +84,19 @@ def register_new_student(img):
                     st.error("Couldn't create your profile. Try again.")
 
 
-
+# -------------------------------------------------------------------
 
 def face_login():
-    st.header("Login using Face ID", text_alignment="center")
+    st.markdown(
+        """
+    <div class="auth-head">
+    <div class="auth-badge">STUDENT PORTAL</div>
+    <div class="auth-title">Welcome <span>back</span></div>
+    <div class="auth-sub">Login using Face ID.</div>
+    </div>
+    """,
+            unsafe_allow_html=True,
+        )
     photo = st.camera_input("Position your face in the center")
     if not photo:
         return
@@ -113,13 +123,13 @@ def face_login():
         if student:
             login_student(student)
 
-
+# -------------------------------------------------------------------
 def student_logout():
     for key in ("student_data", "user_role", "is_logged_in"):
         st.session_state.pop(key, None)
     st.session_state["login_type"] = None
 
-
+# -------------------------------------------------------------------
 def student_dashboard():
     student = st.session_state.student_data
     left, right = st.columns([5, 1], vertical_alignment="center")
@@ -131,7 +141,7 @@ def student_dashboard():
     # TODO: show this student's attendance records here
 
 
-
+# -------------------------------------------------------------------
 def student_screen():
     header()
     style_base_layout()
@@ -141,7 +151,7 @@ def student_screen():
         student_dashboard()
 
     else:
-        back_col, _ = st.columns([1, 5])
+        back_col, _ = st.columns([2, 8])
         with back_col:
             st.button("Back to home", key="back_home", type="tertiary",
                       icon=":material/arrow_back:", on_click=go_home)

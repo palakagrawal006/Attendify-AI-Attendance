@@ -4,6 +4,8 @@ from src.components.header import header   # make sure this name matches header.
 from src.components.footer import footer
 from src.ui.style_base_layout import style_base_layout
 from src.database.db import create_teacher, check_teacher_exists, teacher_login
+from src.screens.teacher_dashboard import teacher_dashboard
+
 
 def auth_style():
     css = (Path(__file__).parent.parent / "ui" / "auth.css").read_text(encoding="utf-8")
@@ -17,7 +19,7 @@ def set_mode(mode):
 def go_home():
     st.session_state["login_type"] = None
 
-
+# -------------------------------------------------------------------
 def register_form():
     st.markdown(
         """
@@ -66,7 +68,7 @@ def register_form():
                     
                 except Exception as e:
                     st.error(str(e))
-
+# -------------------------------------------------------------------
 
 def login_form():
     st.markdown(
@@ -111,31 +113,41 @@ def login_form():
                 else:
                     st.error("Invalid username or password")
         
-        
-def teacher_dashboard():
-    teacher_data = st.session_state.teacher_data
-    st.header(f"""Welcome {teacher_data['name']}""")
-    
+# -------------------------------------------------------------------
+def teacher_logout():
+    for key in ("teacher_data", "user_role", "is_logged_in"):
+        st.session_state.pop(key, None)
+
+    st.session_state["teacher_mode"] = "login"
+    st.session_state["login_type"] = None
+    # st.session_state["is_logged_in"] = False
+    st.rerun()
+
+# ----------------------------------------------------------------
 
 def teacher_screen():
-    header()
+    if "teacher_data" in st.session_state: 
+        header(on_logout=teacher_logout)   
+    else :
+        header()   
+        
     style_base_layout()
     auth_style()
 
-    # back link: top-left, under the header, in its own narrow row
-    back_col, _ = st.columns([1, 5])
-    with back_col:
-        st.button("Back to home", key="back_home", type="tertiary",
-                  icon=":material/arrow_back:", on_click=go_home)
- 
-    # form: centered column
-    _, mid, _ = st.columns([1, 3, 1])
-    with mid:
-        if "teacher_data" in st.session_state :
-            teacher_dashboard() 
-        elif st.session_state.get("teacher_mode", "login") == "register":
-            register_form()
-        else:
-            login_form()
+    if "teacher_data" in st.session_state:
+        teacher_dashboard()
+    else:
+        # logo only
+        back_col, _ = st.columns([2, 8])
+        with back_col:
+            st.button("Back to home", key="back_home", type="tertiary",
+                      icon=":material/arrow_back:", on_click=go_home)
+
+        _, mid, _ = st.columns([1, 2, 1])       # narrow centered form
+        with mid:
+            if st.session_state.get("teacher_mode", "login") == "register":
+                register_form()
+            else:
+                login_form()
 
     footer()

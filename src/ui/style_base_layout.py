@@ -24,11 +24,12 @@ def style_base_layout():
             
 
             .block-container {
-                padding-top: 1.5rem !important;
+                padding-top: 1rem !important;
             }
 
             .stApp {
-                background: var(--bg) !important;
+                background-color: var(--bg) !important;
+                background-image: radial-gradient(ellipse at 50% -10%, rgba(212, 175, 55, 0.14), transparent 55%) !important; 
                 color: var(--text);
             }
 
@@ -77,6 +78,7 @@ def style_base_layout():
             button[kind="primary"] p,
             [data-testid="stBaseButton-primary"] p {
                 color: var(--bg) !important;
+                font-weight: 650 !important;
             }
 
             /* Secondary: gold outline */
@@ -134,5 +136,32 @@ def style_base_layout():
             [data-testid="stBaseButton-tertiary"]:hover p {
                 color: var(--gold) !important;
             }
+            
+            
+            .stApp [class*="st-key-subject_card_"] {
+                background: var(--surface) !important;
+                border: 1px solid var(--line) !important;
+                border-left: 6px solid var(--gold) !important;
+                border-radius: 16px !important;
+                padding: 5px 12px 20px 12px;
+            }
+
+            /* section headings get a gold bar */
+            [data-testid="stHeading"] h3 {
+                border-left: 5px solid var(--gold);
+                padding-left: 12px;
+            }
+            
+            /*Replace Streamlit’s blue and yellow message boxes*/
+
+            [data-testid="stAlert"] {
+                background: rgba(212, 175, 55, 0.1) !important;
+                border: 1px solid var(--line);
+                border-radius: 14px;
+            }
+            [data-testid="stAlert"] p { color: var(--text) !important; }
+            
+            
+            
         </style>
     """, unsafe_allow_html=True)
