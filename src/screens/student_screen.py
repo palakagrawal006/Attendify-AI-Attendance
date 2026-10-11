@@ -9,6 +9,7 @@ import numpy as np
 from src.pipleline.face_pipeline import predict_attendance, get_face_embeddings, train_classifier
 from src.pipleline.voice_pipeline import get_voice_embedding
 from src.database.db import get_all_students, create_student
+from src.screens.student_dashboard import student_dashboard
 
 
 
@@ -128,22 +129,15 @@ def student_logout():
     for key in ("student_data", "user_role", "is_logged_in"):
         st.session_state.pop(key, None)
     st.session_state["login_type"] = None
-
-# -------------------------------------------------------------------
-def student_dashboard():
-    student = st.session_state.student_data
-    left, right = st.columns([5, 1], vertical_alignment="center")
-    with left:
-        st.header(f"Welcome, {student['name']}")
-    with right:
-        st.button("Logout", key="student_logout", icon=":material/logout:",
-                  width="stretch", on_click=student_logout)
-    # TODO: show this student's attendance records here
-
+    st.rerun()
 
 # -------------------------------------------------------------------
 def student_screen():
-    header()
+    if "student_data" in st.session_state: 
+        header(on_logout=student_logout)   
+    else :
+        header()  
+        
     style_base_layout()
     auth_style()
     
@@ -160,4 +154,3 @@ def student_screen():
         
     footer()
    
-        

@@ -11,6 +11,8 @@ def create_sub_dialog(teacher_id):
     sub_section = st.text_input("Section" , placeholder="A") 
     
     if st.button("Create Subject Now", type="primary", width="stretch"):
+        sub_id, sub_name, sub_section = sub_id.strip().upper(), sub_name.strip(), sub_section.strip().upper()
+        
         if sub_id  and sub_name and sub_section:
             try:
                 create_subject(sub_id, sub_name, sub_section, teacher_id)
