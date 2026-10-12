@@ -6,8 +6,8 @@ from src.ui.style_base_layout import style_base_layout
 from PIL import Image
 import numpy as np 
 
-from src.pipleline.face_pipeline import predict_attendance, get_face_embeddings, train_classifier
-from src.pipleline.voice_pipeline import get_voice_embedding
+from src.pipeline.face_pipeline import predict_attendance, get_face_embeddings, train_classifier
+from src.pipeline.voice_pipeline import get_voice_embedding
 from src.database.db import get_all_students, create_student
 from src.screens.student_dashboard import student_dashboard
 

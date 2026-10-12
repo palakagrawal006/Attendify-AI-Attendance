@@ -110,3 +110,13 @@ def get_student_subjects(student_id):
 def get_student_attendance(student_id):
     response = supabase.table("attandance_logs").select("*, subjects(*)").eq('student_id' , student_id).execute()
     return response.data
+
+
+# attendance
+def create_attendance(logs) :
+    res = supabase.table("attandance_logs").insert(logs).execute()
+    return res.data
+
+# to show record
+def get_attendance_for_teacher(teacher_id):
+    pass

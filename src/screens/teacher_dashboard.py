@@ -1,29 +1,127 @@
 import streamlit as st
 from pathlib import Path
-from src.database.db import get_teacher_subjects
+from src.database.db import get_teacher_subjects, get_attendance_for_teacher
 from src.components.dialog_create_sub import create_sub_dialog
 from src.components.dialog_share_sub import share_subject_dialog
 from src.components.subject_card import subject_card 
+from src.components.dialog_add_photos import add_photos_dialog 
+from src.components.dialog_attendance_log import attendance_result_dialog 
+from src.components.dialog_voice_attendance import voice_attendance_dialog 
+from src.pipeline.face_pipeline import predict_attendance 
+import numpy as np
+import pandas as pd
+from src.database.config import supabase 
+from datetime import datetime
 
 
+def attendance_tab(teacher_data):
+    teacher_id = st.session_state.teacher_data['teacher_id'] 
+    st.subheader("Take AI attendance")
+    st.space()
+    # store images for attendance 
+    if 'attendance_images' not in st.session_state :
+        st.session_state.attendance_images = []
+         
+    subjects = get_teacher_subjects(teacher_id) 
 
-# def attendance_tab(teacher):
-#     st.subheader("Take AI attendance")
-#     subjects = get_subjects(teacher["teacher_id"])
+    if not subjects:
+        st.info("You haven't created any subjects yet. Create a subject first.")
+        return
+    
+    #  "dva-AL603 : 5"
+    subject_options = {f"{s['name']} - {s['subject_code']}" : s['subject_id'] for s in subjects} #dictionary of subjects
+    
+    c1, c2 = st.columns([3,1], vertical_alignment='bottom') 
+    
+    with c1:
+        selected_subject =  st.selectbox('Select Subject', options=list(subject_options.keys()))
+    
+    with c2 : 
+        if st.button("Add Photos", type='primary', icon=':material/photo_prints:'):
+            add_photos_dialog()
+            
+    selected_subject_id = subject_options[selected_subject]
+    
+    st.divider() 
+    
+    # preview of added photos
+    if st.session_state.attendance_images : 
+        st.header('Added Photos')
+        gallery_cols = st.columns(4) 
+        
+        for idx , img in enumerate(st.session_state.attendance_images):
+            with gallery_cols [idx % 4] :
+                st.image(img, width='stretch', caption=f'Photo {idx+1}')
+       
 
-#     if not subjects:
-#         st.info("You haven't created any subjects yet. Create a subject first.")
-#         st.button("Create a subject", icon=":material/add:", on_click=set_tab, args=("subjects",))
-#         return
+    # bottom ribbon 
+    has_photos = bool(st.session_state.attendance_images)
+    c1, c2, c3 = st.columns(3) 
+    
+    with c1 :
+        if st.button("Clear all photos" , width='stretch', type='tertiary', icon=":material/delete:" ,disabled=not has_photos) :
+            st.session_state.attendance_images = []
+            st.rerun() 
+            
+    with c2 :
+        if st.button("Run Face Analysis" , width='stretch', type='primary', icon=":material/analytics:" ,disabled=not has_photos) :
+            with st.spinner("Deep scanning classroom photos..."):
+                all_detected_ids = {} 
+                
+                for i , img in enumerate(st.session_state.attendance_images):
+                    img_np = np.array(img) 
+                    detected , _, _ = predict_attendance(img_np) 
+                    
+                    if detected:
+                        for sid  in detected.keys( ) :
+                            student_id = int(sid) 
+                            
+                            all_detected_ids.setdefault(student_id, []).append(f"Photo {i+1}") #to save in which photo no. that student appears
+                            
+                # find list of all student enrolled in that subject 
+                enrolled_res = supabase.table("subject_student").select("*, students(*)").eq('subject_id' , selected_subject_id).execute()
+                
+                enrolled_student = enrolled_res.data
+                if not enrolled_student :
+                    st.warning("No students enrolled in this course")
+                
+                else : 
+                    # results = to show in table, attendance_log = for entry in log table
+                    
+                    results, attendance_to_log = [], [] 
+                    
+                    current_timestamp = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+                    
+                    for node in enrolled_student:
+                        student = node["students"] 
+                        source = all_detected_ids.get(int(student['student_id']), [])  #agr present h to kis photo m present h
+                        is_present = len(source)>0 
+                        
+                        results.append({
+                            "Name": student['name'],
+                            "Id" : student["student_id"] ,
+                            "Source" : ", ".join(source) if is_present else "-",
+                            "Status" : "✅ Present" if is_present else "❌ Absent"   
+                        })
+                        
+                        attendance_to_log.append({
+                            "student_id" : student["student_id"] ,
+                            "subject_id" : selected_subject_id ,
+                            "timestamp" : current_timestamp,
+                            "is_present" : bool(is_present) 
+                        })
+                
+                attendance_result_dialog(pd.DataFrame(results), attendance_to_log)
+                        
+    # voice attendance
+    with c3:
+        if st.button("Use Voice Attendance" , type="secondary", width='stretch', icon=":material/mic:") :
+            voice_attendance_dialog(selected_subject_id)
+        
 
-#     subject = st.selectbox("Subject", subjects, format_func=lambda s: s["name"])
-#     photo = st.camera_input("Take a photo of the class")
-#     if photo:
-#         st.write("Next step: run predict_attendance on this photo and save the result.")
+# -----------------------------------------------------------
 
-# ------------------------------------------------
-
-def manage_subject(teacher):
+def manage_subject(teacher_data):
     teacher_id = st.session_state.teacher_data['teacher_id'] 
     c1, c2 = st.columns([4, 2]) 
     
@@ -64,11 +162,16 @@ def manage_subject(teacher):
     
 # -------------------------------------------------------------------
 
-# def records_tab(teacher):
-#     st.subheader("Attendance records")
-#     st.info("No records yet. They appear here once you take attendance.")
+def attendance_record(teacher):
+    st.subheader("Attendance records")
+    
+    teacher_id = teacher['teacher_id']
+    
+    records = get_attendance_for_teacher(teacher_id)
+    
+    st.info("No records yet. They appear here once you take attendance.")
 
-# -------------------------------------------------------------------
+# -----------------------------------------------------------------
 
 def teacher_dashboard():
     teacher = st.session_state["teacher_data"]
@@ -95,11 +198,9 @@ def teacher_dashboard():
     st.divider()
     
     if current == "take_attendance":
-        st.write("Hello")
-        # attendance_tab(teacher)       # the three tab functions from my last message
+        attendance_tab(teacher)       # the three tab functions from my last message
     elif current == "manage_subjects":
         manage_subject(teacher)
     else:
-        # records_tab(teacher)
-        st.write("Hello")
+        attendance_record(teacher)
         

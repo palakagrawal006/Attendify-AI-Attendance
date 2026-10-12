@@ -150,6 +150,7 @@ def style_base_layout():
             [data-testid="stHeading"] h3 {
                 border-left: 5px solid var(--gold);
                 padding-left: 12px;
+               line-height: 0.5;
             }
             
             /*Replace Streamlit’s blue and yellow message boxes*/
