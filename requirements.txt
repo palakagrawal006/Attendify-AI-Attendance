@@ -22,6 +22,7 @@ pillow #image preporcessing
 
 librosa  #edit, modify audio file
 
+resemblyzer
 # resemblyzer --no-deps 
 # Install resemblyzer separately using --no-deps #create embeddings
 
