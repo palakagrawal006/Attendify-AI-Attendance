@@ -1,0 +1,24 @@
+[theme]
+base = "dark"
+
+primaryColor = "#D4AF37"               # gold: :primary[...] text, focus rings, checkboxes, selected items
+backgroundColor = "#0B0C10"            # page (deep onyx)
+secondaryBackgroundColor = "#1F2833"   # inputs, sidebar, code boxes (charcoal)
+textColor = "#FFFFFF"
+
+# Needs a recent Streamlit. On an older version these lines only print a warning,
+# so delete any that your version complains about.
+linkColor = "#D4AF37"
+borderColor = "rgba(212, 175, 55, 0.35)"
+baseRadius = "large"
+buttonRadius = ""
+
+[client]
+toolbarMode = "minimal"                # hides the Deploy menu, keeps a small toolbar
+
+[server]
+runOnSave = true                       # reruns when you save a file
+# address = "0.0.0.0"                  # uncomment so phones on your Wi-Fi can open the share link
+
+[browser]
+gatherUsageStats = false
