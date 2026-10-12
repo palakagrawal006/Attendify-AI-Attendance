@@ -119,4 +119,6 @@ def create_attendance(logs) :
 
 # to show record
 def get_attendance_for_teacher(teacher_id):
-    pass
+    res = supabase.table("attandance_logs").select("*, subjects!inner(*)").eq('subjects.teacher_id', teacher_id).execute() 
+    # attandance_logs - no teacher id - inner join by - subjects id 
+    return res.data

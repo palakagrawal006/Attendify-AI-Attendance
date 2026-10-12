@@ -1,3 +1,5 @@
+streamlit # frontend dev
+
 # utilities
 numpy
 pandas 
@@ -16,7 +18,7 @@ bcrypt #hashing
 segno  # QR generation
 pillow #image preporcessing
 
-streamlit # frontend dev
+
 
 librosa  #edit, modify audio file
 

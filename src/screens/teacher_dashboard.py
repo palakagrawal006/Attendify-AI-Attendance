@@ -164,12 +164,89 @@ def manage_subject(teacher_data):
 
 def attendance_record(teacher):
     st.subheader("Attendance records")
+    st.space()
     
     teacher_id = teacher['teacher_id']
     
+    # uss teacher k saree records atten k 
     records = get_attendance_for_teacher(teacher_id)
     
-    st.info("No records yet. They appear here once you take attendance.")
+    if not records :
+        st.info("No records yet. They appear here once you take attendance.")
+        return 
+    
+    df = pd.DataFrame([
+        {
+            "timestamp": r.get("timestamp"),
+            "Subject": r["subjects"]["name"],
+            "Subject Code": r["subjects"]["subject_code"],
+            "is_present": bool(r.get("is_present", False)),
+        }
+        for r in records
+    ])
+
+    # parse once; handles with/without milliseconds and offsets
+    df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce", utc=True)
+    df = df.dropna(subset=["timestamp"])
+    df["timestamp"] = df["timestamp"].dt.tz_convert("Asia/Kolkata")
+
+    # one class = one timestamp (to the second)
+    df["ts_group"] = df["timestamp"].dt.floor("s")
+
+    summary = (
+        df.groupby(["ts_group", "Subject", "Subject Code"])
+        .agg(Present=("is_present", "sum"), Total=("is_present", "count"))
+        .reset_index()
+        .sort_values("ts_group", ascending=False)
+    )
+
+    summary["Time"] = summary["ts_group"].dt.strftime("%Y-%m-%d %I:%M %p")
+    summary["Attendance Stats"] = (
+        "✅ " + summary["Present"].astype(str) + " / " + summary["Total"].astype(str) + " students"
+    )
+
+    st.dataframe(
+        summary[["Time", "Subject", "Subject Code", "Attendance Stats"]],
+        use_container_width=True,
+        hide_index=True,
+    )
+    
+    
+    # data = []
+    
+    # for r in records : 
+    #     ts = r.get('timestamp') #ek class 1 timestamp pr hoti h 
+        
+    #     data.append({
+    #         "ts_group": ts.split(".")[0] if ts else None, # '.' ->milisecond 
+    #         "Time" : datetime.fromisoformat(ts).strftime("%Y-%m-%d %I:%M %p") if ts else "N/A" ,
+    #         "Subject" : r['subjects']['name'],
+    #         "Subject Code": r['subjects']['subject_code'],
+    #         "is_present" : bool(r.get('is_present' , False))
+    #     })
+        
+    # df = pd.DataFrame(data)  
+    
+    # summary =(
+    #     df.groupby(['ts_group', 'Time', 'Subject', 'Subject Code'])
+    #     .agg(
+    #         Present_Count = ('is_present', 'sum') ,
+    #         Total_Count = ('is_present', 'count') 
+    #     ).reset_index()
+    # )
+    
+    # summary['Attendance Stats'] = ( #new col 
+    #     "✅" + summary['Present_Count'].astype(str) +" /" + summary['Total_Count'].astype(str) + 'Students'
+    # )
+    
+    # display_df = (summary.sort_values(by='ts_group', ascending=False)
+    #               [['Time','Subject', 'Subject Code' , 'Attendance Stats']])   #col name we want 
+    
+    
+    # st.dataframe(display_df, width='stretch' , hide_index=True )
+        
+    
+    
 
 # -----------------------------------------------------------------
 

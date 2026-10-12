@@ -7,6 +7,13 @@ from src.components.dialog_autoenroll import auto_enroll_dialog
 
 def main():
     
+    st.set_page_config(
+    page_title="Attendify | AI Attendance",
+    page_icon="assets/attendify_icon.png",
+    layout="centered",
+    )
+    
+    
     # initialise 
     if "login_type" not in st.session_state:
         st.session_state["login_type"] = None #initially no one logged in - home pg
