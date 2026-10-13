@@ -15,16 +15,16 @@ def home_screen():
     style_base_layout()
     home_style()
 
-    st.markdown(
-        """
-<div class="home-hero">
-<div class="home-badge">AI-POWERED ATTENDANCE</div>
-<div class="home-title">Smarter Attendance.<br>Simpler <span>Classrooms.</span></div>
-<div class="home-description">AI-powered attendance using face and voice recognition — built for modern classrooms.</div>
-</div>
-""",
-        unsafe_allow_html=True,
-    )
+#     st.markdown(
+#         """
+# <div class="home-hero">
+# <div class="home-badge">AI-POWERED ATTENDANCE</div>
+# <div class="home-title">Smarter Attendance.<br>Simpler <span>Classrooms.</span></div>
+# <div class="home-description">AI-powered attendance using face and voice recognition — built for modern classrooms.</div>
+# </div>
+# """,
+#         unsafe_allow_html=True,
+#     )
 
     _, mid, _ = st.columns([1, 6, 1])
     with mid:
@@ -58,15 +58,15 @@ def home_screen():
                     st.session_state["login_type"] = "student"
                     st.rerun()
 
-    st.markdown(
-        """
-<div class="feature-strip">
-<div class="feature"><b>Face recognition</b><span>Mark a whole class in seconds</span></div>
-<div class="feature"><b>Voice recognition</b><span>Hands-free roll call</span></div>
-<div class="feature"><b>Instant reports</b><span>Attendance insights, always ready</span></div>
-</div>
-""",
-        unsafe_allow_html=True,
-    )
+#     st.markdown(
+#         """
+# <div class="feature-strip">
+# <div class="feature"><b>Face recognition</b><span>Mark a whole class in seconds</span></div>
+# <div class="feature"><b>Voice recognition</b><span>Hands-free roll call</span></div>
+# <div class="feature"><b>Instant reports</b><span>Attendance insights, always ready</span></div>
+# </div>
+# """,
+#         unsafe_allow_html=True,
+#     )
 
     footer()

@@ -14,6 +14,7 @@ def style_base_layout():
                 --muted:   rgba(255, 255, 255, 0.72);
                 --line:    rgba(212, 175, 55, 0.35);
             }
+            
 
             /* Hide Streamlit chrome */
             #MainMenu, footer, header,
