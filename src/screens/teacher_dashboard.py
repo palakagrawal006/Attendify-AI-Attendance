@@ -207,7 +207,7 @@ def attendance_record(teacher):
 
     st.dataframe(
         summary[["Time", "Subject", "Subject Code", "Attendance Stats"]],
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
     )
     
