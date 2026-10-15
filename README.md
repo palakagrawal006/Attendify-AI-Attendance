@@ -6,6 +6,7 @@ Attendance for modern classrooms using **face recognition** and **voice recognit
 
 <!-- Add 2-3 screenshots here, e.g. -->
  ![Teacher dashboard](assets/teacher2.png) 
+ ***
  ![student dashboard](assets/student4.png) 
 
 ## Features
